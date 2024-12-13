@@ -111,19 +111,15 @@
       font-size: 16px;
     }
 
-     button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-
-    button {
+    button,
+    .button {
       width: auto;
       background-color: #007BFF;
       color: white;
       border: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
     }
@@ -149,13 +145,13 @@
   <nav>
     <ul>
       <li class="bad-item">
-        <div role="button" tabindex="0" style="padding: 10px; color: #fff;">
+        <div role="button" tabindex="0" class="button">
           I'm a div with a click event, enter will not work on me
         </div>
       </li>
 
       <li class="good-item">
-        <button type="button" tabindex="0" style="padding: 10px; color: #fff;">
+        <button type="button" tabindex="0">
           I'm a button with a click event
         </div>
       </li>
