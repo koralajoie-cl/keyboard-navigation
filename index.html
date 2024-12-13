@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Navigation Demo</title>
+  <style>
+    html {
+      cursor: none !important;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    button:hover, 
+    a:hover, 
+    input:hover,
+    select:hover,
+    textarea,
+    textarea:hover {
+      cursor: none !important;
+    }
+
+    /* Basic Styles for Menu */
+    nav {
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
+
+    nav ul li {
+      position: relative;
+      margin-right: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      background-color: #555;
+      border-radius: 5px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #555;
+    }
+
+    .dropdown-hover-only:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-hover-focus:hover .dropdown-content,
+    .dropdown-hover-focus:focus-within .dropdown-content {
+      display: block;
+    }
+
+    nav a:focus, .dropdown-content a:focus {
+      background-color: #0066cc;
+    }
+
+    form {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      cursor: none;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+     button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button {
+      width: auto;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Learn Keyboard Navigation</h1>
+  <p>Use the <strong>Tab</strong> key to navigate between the menu items, form fields, and dropdowns. Use <strong>Shift + Tab</strong> to go backwards. </p>
+  <p>Press <strong>Enter</strong> to interact with items or submit the form.</p>
+  <p>Use the <strong>Spacebar</strong> to open the select and the <strong>Arrow keys</strong> to navigate the options, you can select an option with <strong>Enter</strong> or <strong>Space</strong></p>
+
+  <nav>
+    <ul>
+      <li class="bad-item">
+        <div role="button" tabindex="0" style="padding: 10px; color: #fff;">
+          I'm a div with a click event, enter will not work on me
+        </div>
+      </li>
+
+      <li class="good-item">
+        <button type="button" tabindex="0" style="padding: 10px; color: #fff;">
+          I'm a button with a click event
+        </div>
+      </li>
+      
+      <li class="dropdown-hover-only">
+        <button type="button">This has an interaction, but only on hover</a>
+          <div class="dropdown-content" style="padding:10px; margin-top: 15px;">
+            Look at me, I show on hover
+          </div>
+      </li>
+
+      <li class="dropdown-hover-focus">
+        <button type="button" aria-haspopup="true" aria-expanded="false">
+          This has an interaction, but on hover and focus
+        </a>
+        <div class="dropdown-content" style="padding:10px; margin-top: 15px;">
+          Look at me, I show on focus and hover
+        </div>
+      </li>
+      
+    </ul>
+  </nav>
+
+  <form id="exampleForm">
+    <label for="name">Your Name *</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required tabindex="0">
+
+    <label for="favoriteColor">Favorite Color</label>
+    <select id="favoriteColor" name="favoriteColor" required tabindex="0">
+      <option value="">Select a color</option>
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+      <option value="yellow">Yellow</option>
+    </select>
+
+    <label for="bio">Tell us a bit about yourself</label>
+    <textarea id="bio" name="bio" placeholder="Write something about yourself..." rows="4" required tabindex="0"></textarea>
+
+    <button type="submit" tabindex="0">Submit</button>
+  </form>
+
+  <div class="message" id="message"></div>
+
+  <script>
+    document.body.addEventListener('keydown', (event) => {
+      if (event.key === 'Tab') {
+        document.getElementById('message').textContent = 'You are navigating using the keyboard!';
+      }
+    });
+
+    // Prevent form submission on Enter to keep the demo interactive
+    document.getElementById('exampleForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      document.getElementById('message').textContent = 'Form submitted nowhere (this is a demo)!';
+    });
+
+    // Dropdown keyboard navigation (Hover + Focus)
+    const dropdownItems = document.querySelectorAll('.dropdown-hover-focus');
+
+    dropdownItems.forEach(item => {
+      const dropdown = item.querySelector('.dropdown-content');
+      const links = dropdown.querySelectorAll('a');
+      const badItem = document.querySelector('.bad-item div');
+      const goodItem = document.querySelector('.good-item button');
+
+      goodItem.addEventListener('click', () => {
+        alert('Button item clicked! You can interact with this button on click and with enter.');
+      });
+
+      badItem.addEventListener('click', () => {
+        alert('Div with role button item clicked!');
+      });
+
+      item.addEventListener('focusin', () => {
+        dropdown.style.display = 'block';
+      });
+
+      item.addEventListener('focusout', () => {
+        dropdown.style.display = 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
